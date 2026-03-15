@@ -33,7 +33,7 @@ EnterpriseIQ serves six user roles across the enterprise: general Employees, HR 
 
 ### Diagram
 
-![C4 Level 1 — System Context](./images/L1- System Context.png)
+![C4 Level 1 — System Context](./images/L1-%20System%20Context.png)
 
 ---
 
@@ -47,7 +47,7 @@ EnterpriseIQ is composed of seven containers: a Angular Web Application for the 
 
 ### Diagram
 
-![C4 Level 2 — Container Diagram](./images/L2- Container_Diagram.png)
+![C4 Level 2 — Container Diagram](./images/L2-%20Container_Diagram.png)
 
 ---
 
@@ -61,7 +61,7 @@ The API Gateway is composed of eleven components: Auth Controller, User & Role S
 
 ### Diagram
 
-![C4 Level 3 — Component Diagram](./images/L3 -Component Diagram.png)
+![C4 Level 3 — Component Diagram](./images/L3%20-Component%20Diagram.png)
 
 ---
 
@@ -75,7 +75,7 @@ The sequence covers 22 steps: the user submits a query via the Angular UI → th
 
 ### Diagram
 
-![C4 Level 4 — Sequence Diagram](./images/L4- Sequence Diagram .png)
+![C4 Level 4 — Sequence Diagram](./images/L4-%20Sequence%20Diagram%20.png)
 
 ---
 
