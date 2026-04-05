@@ -78,5 +78,4 @@ Once fully built, EnterpriseIQ will:
 ---
 
 ## Author
-
-Developed as part of Software Engineering Assignments 3–6 — System Specification, Architectural Modeling, Requirements Engineering, Use Case Modeling, and Agile Planning.
+Thabo Tshabalala
