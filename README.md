@@ -1,4 +1,4 @@
-﻿# EnterpriseIQ
+# EnterpriseIQ
 
 ### An Intelligent Retrieval-Augmented Generation (RAG) System for Enterprise Knowledge Management
 
@@ -35,12 +35,48 @@ Once fully built, EnterpriseIQ will:
 
 ## Project Documentation
 
+### Assignment 3 — System Specification & Architecture
+
 | Document | Description |
 |---|---|
-| [SPECIFICATION.md](./SPECIFICATION.md) | Full system specification — domain, problem statement, functional and non-functional requirements, roles, and glossary |
-| [ARCHITECTURE.md](./ARCHITECTURE.md) | C4 architectural diagrams — System Context, Container, Component, and Sequence diagrams |
-| [STAKEHOLDERS.md](./STAKEHOLDERS.md) | Stakeholder analysis — 8 stakeholders with roles, concerns, pain points, and success metrics |
-| [SRD.md](./SRD.md) | System Requirements Document — 12 functional requirements with acceptance criteria and 13 non-functional requirements across all quality categories |
-| [REFLECTION.md](./REFLECTION.md) | Reflection on challenges faced balancing competing stakeholder needs during requirements engineering |
+| [SPECIFICATION.md](./docs/SPECIFICATION.md) | Full system specification — domain, problem statement, functional and non-functional requirements, roles, and glossary |
+| [ARCHITECTURE.md](./docs/ARCHITECTURE.md) | C4 architectural diagrams — System Context, Container, Component, and Sequence diagrams |
+
+### Assignment 4 — Stakeholder & Requirements Analysis
+
+| Document | Description |
+|---|---|
+| [STAKEHOLDERS.md](./docs/STAKEHOLDERS.md) | Stakeholder analysis — 8 stakeholders with roles, concerns, pain points, and success metrics |
+| [SRD.md](./docs/SRD.md) | System Requirements Document — 12 functional requirements with acceptance criteria and 13 non-functional requirements |
+| [REFLECTION.md](./docs/REFLECTION.md) | Reflection on challenges faced balancing competing stakeholder needs during requirements engineering |
+
+### Assignment 5 — Use Case Modeling & Test Cases
+
+| Document | Description |
+|---|---|
+| [USECASES.md](./docs/Usecases.md) | Use case diagram (Mermaid), written explanation of actors and relationships, and 8 detailed use case specifications |
+| [TESTCASES.md](./docs/Testcases.md) | 12 functional test cases and 2 non-functional test scenarios (performance and security) |
+
+### Assignment 6 — Agile Planning
+
+| Document | Description |
+|---|---|
+| [USERSTORIES.md](./docs/assignment6/UserStories.md) | 12 Agile user stories with acceptance criteria, priority, and traceability to requirements and use cases |
+| [BACKLOG.md](./docs/assignment6/Backlog.md) | MoSCoW prioritized product backlog with Fibonacci story point estimates, dependencies, and justification |
+| [SPRINT.md](./docs/assignment6/Sprint.md) | Sprint 1 plan — goal, 6 selected stories, 33 tasks with time estimates covering the MVP core |
 
 ---
+
+## Agile Planning
+
+| Tool | Link |
+|---|---|
+| GitHub Project Board | [EnterpriseIQ — Product Backlog](../../projects/1) |
+| Sprint 1 Milestone | [Sprint 1 — MVP Core](../../milestone/1) |
+| All User Story Issues | [Issues](../../issues) |
+
+---
+
+## Author
+
+Developed as part of Software Engineering Assignments 3–6 — System Specification, Architectural Modeling, Requirements Engineering, Use Case Modeling, and Agile Planning.
