@@ -71,8 +71,8 @@ Once fully built, EnterpriseIQ will:
 
 | Tool | Link |
 |---|---|
-| GitHub Project Board | [EnterpriseIQ — Product Backlog](../../projects/1) |
-| Sprint 1 Milestone | [Sprint 1 — MVP Core](../../milestone/1) |
+| GitHub Project Board | [EnterpriseIQ - Product Backlog](https://github.com/users/Thabo-Tshabalala/projects/1/views/3) |
+| Sprint 1 Milestone | [Sprint 1 - MVP Core](../../milestone/1) |
 | All User Story Issues | [Issues](../../issues) |
 
 ---
