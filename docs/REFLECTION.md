@@ -85,3 +85,45 @@ Agile methodology is designed for teams. Scrum has a Product Owner, a Scrum Mast
 **Splitting the Scrum roles was disorienting.** As Product Owner, I wanted to include everything. As Scrum Master, I wanted the process to be rigorous. As the sole developer, I wanted the sprint to be realistic. These three perspectives genuinely conflict. The Product Owner in me added US-006 (ERP sync) to Sprint 1 because Finance stakeholders care deeply about it. The developer in me removed it because it adds significant complexity — live database connectivity, sync scheduling, and failure handling — on top of an already full sprint. The Scrum Master broke the tie by pointing to the sprint goal: *"establish the secure, working core."* ERP sync is not part of the core. It moved to Sprint 2.
 
 **The most useful resistance I encountered was my own impatience.** Every time I wanted to skip writing acceptance criteria because "I already know what done looks like," I forced myself to write it anyway. Every time I wanted to bundle two stories together, I asked whether they were truly independent. That discipline — resisting the urge to shortcut the process when there is no one watching — is what Agile actually requires. A team enforces it socially. Alone, you have to enforce it on yourself. That is harder than it sounds, and more valuable than I expected.
+
+
+# Assignment 7
+
+# GitHub Project Templates and Kanban Implementation
+
+---
+
+## 1. Challenges in Selecting the Template
+
+The first challenge in this assignment was resisting the temptation to simply pick the most familiar template. Basic Kanban looks straightforward and is easy to set up, but for EnterpriseIQ — a system with 12 user stories, multiple sprints, and traceability requirements across five assignments — it would have been inadequate within the first week of use. The selection process required stepping back and asking not what is easiest to set up, but what will actually support the development workflow for the rest of the semester.
+
+The second challenge was understanding what GitHub's automation actually does versus what it claims to do. The Automated Kanban template advertises automatic card movement, but this only triggers on specific events — a pull request being opened or merged. For a solo developer who may sometimes close issues directly without a PR (for documentation tasks, for example), the automation does not fire. This means the board can fall out of sync with reality if the developer is not disciplined about using pull requests consistently. Recognising this limitation was important — it means the automation is a helpful tool but not a substitute for maintaining the board actively.
+
+The third challenge was deciding how many custom columns to add. The assignment requires a minimum of two. Adding too few makes the board generic; adding too many creates noise. The decision to add Backlog, Testing, and Blocked was deliberate: Backlog separates sprint-committed work from future work, Testing reflects the test cases defined in Assignment 5, and Blocked makes impediments visible rather than invisible. Each column earns its place.
+
+---
+
+## 2. Challenges in Customizing the Board
+
+Populating the board with all 12 user stories from Assignment 6 and assigning them to the correct columns required careful cross-referencing with the sprint plan in `SPRINT.md`. The six Sprint 1 stories (US-001, US-002, US-003, US-004, US-009, US-012) belong in To Do. The remaining six belong in Backlog. Getting this wrong would mean the board misrepresents the sprint plan and loses its value as a planning tool.
+
+Applying consistent labels across all 12 issues was also more time-consuming than expected. Each issue needed MoSCoW labels (`must-have`, `should-have`, `could-have`), priority labels (`high-priority`, `medium-priority`), sprint labels (`sprint-1`), and the base `user-story` label. GitHub does not batch-apply labels, so each issue required individual editing. In a team context with dozens of issues, this would become a significant overhead — which is why tools like Jira that support bulk label operations have an advantage at scale.
+
+---
+
+## 3. GitHub Projects  vs Jira
+
+**GitHub Projects** is the right tool for EnterpriseIQ because everything — code, issues, pull requests, and the board — lives in one place. The traceability from a user story on the board all the way to the commit that implemented it is seamless. For a software engineering assignment where traceability between requirements, use cases, user stories, and code is being assessed, this integration is invaluable.
+
+
+**Jira** is the industry standard for large enterprise development teams.I also use it on my daily work. Its sprint planning, backlog management, velocity tracking, and reporting features are far more powerful than GitHub Projects. However, it has a steep learning curve, requires significant configuration, and its free tier is limited. For a solo student project, Jira would be overkill — the overhead of maintaining it would exceed the benefit it provides.
+
+---
+
+## 4. Lessons Learned
+
+The most important lesson from this assignment is that a Kanban board is only as useful as the discipline behind it. The board does not manage the project — the developer does. The board is a mirror that reflects the state of the project honestly, but only if cards are moved consistently and issues are kept up to date. Automation helps reduce the manual burden, but it cannot replace intentional board hygiene.
+
+The second lesson is that visual workflow management changes how you think about work. Before setting up the board, the 12 user stories existed as a list in a markdown file. After setting up the board, they became a visual pipeline. Seeing six tasks in To Do and nothing in Done creates a productive pressure that a markdown checklist does not. This is why Kanban has become a standard practice in software teams — it makes the work visible in a way that motivates action.
+
+The third lesson is that the columns you choose define your definition of done. By adding a Testing column, the board encodes the expectation that implementation alone is not enough — a user story is not done until it has been tested against the acceptance criteria defined in Assignment 5. Without this column, there would be no visual reminder to run the test cases before marking a story as Done. The board structure is itself a form of quality enforcement.
