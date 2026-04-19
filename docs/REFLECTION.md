@@ -127,3 +127,43 @@ The most important lesson from this assignment is that a Kanban board is only as
 The second lesson is that visual workflow management changes how you think about work. Before setting up the board, the 12 user stories existed as a list in a markdown file. After setting up the board, they became a visual pipeline. Seeing six tasks in To Do and nothing in Done creates a productive pressure that a markdown checklist does not. This is why Kanban has become a standard practice in software teams — it makes the work visible in a way that motivates action.
 
 The third lesson is that the columns you choose define your definition of done. By adding a Testing column, the board encodes the expectation that implementation alone is not enough — a user story is not done until it has been tested against the acceptance criteria defined in Assignment 5. Without this column, there would be no visual reminder to run the test cases before marking a story as Done. The board structure is itself a form of quality enforcement.
+
+# assignment8 reflection
+
+#  Reflection: Object State and Activity Workflow Modeling
+
+---
+
+## 1. Challenge: Choosing the Right Granularity for States and Actions
+
+The most persistent challenge throughout this assignment was deciding how much detail to include in each diagram without making them unreadable. The Vector Embedding object, for example, has a lifecycle that could be modelled with as few as three states (Pending, Active, Deleted) or as many as twelve if every intermediate step in the embedding pipeline is captured. The three-state version is easy to read but provides no analytical value — it tells you nothing about where failures occur or what a "stale" embedding means for query accuracy. The twelve-state version is technically complete but would require a legend to interpret.
+
+The resolution was to model at the level of observable system behaviour — states that a developer, tester, or stakeholder could actually verify by inspecting the system. "Generating" is a meaningful state because you can observe it (the embedding service is running). "Stored" is meaningful because you can verify it (the vector exists in ChromaDB). Internal sub-steps of the embedding model's computation are not meaningful at this level. This rule of thumb — model what you can observe, not what you can imagine — kept the diagrams both accurate and readable.
+
+The same challenge appeared in the activity diagrams. The RAG Query workflow (Workflow 3) covers seven distinct outcomes across four swimlanes. A first draft included every individual HTTP call as a separate action node, which produced a diagram too wide to read. Collapsing internal API calls into labelled action boxes ("Call LLM API") while keeping decision points explicit ("LLM response received?") produced a diagram that communicates the logic without drowning in implementation detail.
+
+---
+
+## 2. Challenge: Aligning Diagrams with Agile User Stories
+
+State and activity diagrams model system behaviour at a level of precision that user stories deliberately avoid. A user story says "As an Employee, I want to submit a natural language query so that I can find information quickly." It says nothing about PII redaction, embedding generation, ChromaDB namespace scoping, or LLM timeout handling — all of which appear in the Query Session state diagram and the RAG Query activity diagram.
+
+This created a traceability challenge: the diagrams are clearly implementing the user story, but they contain far more behaviour than the story describes. The resolution was to trace diagrams to functional requirements (which are more specific than user stories) and to use user stories as the entry point — the story tells you what the user wants, the FR tells you what the system must do, and the diagram shows how it does it.
+
+This three-level traceability (User Story → FR → Diagram) also revealed gaps. The ERP Sync activity diagram (Workflow 5) maps to FR-04 and US-006, but no user story covers the retry logic or partial failure path. These behaviours are implied by the non-functional requirement for reliability (NFR-06) but were never explicitly captured as user stories. Writing the diagrams made this gap visible — which is precisely the value of detailed design artifacts.
+
+---
+
+## 3. Comparing State Diagrams vs Activity Diagrams
+
+State transition diagrams and activity diagrams answer fundamentally different questions, and confusing them produces diagrams that are neither useful nor accurate.
+
+**State diagrams answer: "What can this object be?"**
+They model an object's lifecycle — the valid states it can occupy and the events that move it between them. They are object-centric. The Document state diagram does not care who uploads the document or how the ingestion pipeline works internally — it only tracks what state the document object is in at any given moment. This makes state diagrams excellent for defining validation rules ("a document in Failed state cannot be queried"), database schema decisions (the status field needs these specific enum values), and error handling logic.
+
+**Activity diagrams answer: "How does this process work?"**
+They model a workflow — the sequence of actions, decisions, and parallel steps that actors and the system perform to achieve an outcome. They are process-centric. The Document Upload activity diagram tracks who does what, in what order, with what branching logic — information that is invisible in the Document state diagram.
+
+The two diagram types are complementary. A state diagram tells you that a Query Session can be in a "Generating" state. An activity diagram tells you how it got there and what the system does while it is there. Both are needed for complete design coverage, and both were needed for EnterpriseIQ to accurately represent a system as complex as a multi-namespace RAG pipeline with role-based access, PII redaction, and compliance audit logging.
+
+The most important lesson from this assignment is that dynamic modelling is not documentation — it is design. Drawing the ERP Sync activity diagram forced a decision about retry logic (how many retries? what happens after all retries fail?) that had not been made anywhere in the prior five assignments. The diagram did not record a decision that already existed; it forced a decision that needed to be made. That is what makes these artifacts valuable beyond their role in the assignment rubric.
