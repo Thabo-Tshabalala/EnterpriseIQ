@@ -76,6 +76,13 @@ Once fully built, EnterpriseIQ will:
 | All User Story Issues | [Issues](../../issues) |
 
 ---
-
+### Assignment 8 - Object State & Activity Workflow Modeling
+ 
+| Document | Description |
+|---|---|
+| [state_diagrams.md](./docs/state_diagrams.md) | 8 UML state transition diagrams covering: User Account, Document, Query Session, ERP Sync Job, JWT Token, Audit Log Entry, Namespace, and Vector Embedding — each with Mermaid diagrams, state explanations, and FR traceability |
+| [activity_diagrams.md](./docs/activity_diagram.md) | 8 UML activity diagrams covering: SSO Authentication, Document Ingestion, RAG Query Pipeline, User Management, ERP Sync, Document Expiry Flagging, Audit Log Export, and Cited Response View — with swimlanes, decisions, and parallel actions |
+ 
+---
 ## Author
 Thabo Tshabalala
