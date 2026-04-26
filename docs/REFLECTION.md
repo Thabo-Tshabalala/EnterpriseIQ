@@ -167,3 +167,51 @@ They model a workflow — the sequence of actions, decisions, and parallel steps
 The two diagram types are complementary. A state diagram tells you that a Query Session can be in a "Generating" state. An activity diagram tells you how it got there and what the system does while it is there. Both are needed for complete design coverage, and both were needed for EnterpriseIQ to accurately represent a system as complex as a multi-namespace RAG pipeline with role-based access, PII redaction, and compliance audit logging.
 
 The most important lesson from this assignment is that dynamic modelling is not documentation — it is design. Drawing the ERP Sync activity diagram forced a decision about retry logic (how many retries? what happens after all retries fail?) that had not been made anywhere in the prior five assignments. The diagram did not record a decision that already existed; it forced a decision that needed to be made. That is what makes these artifacts valuable beyond their role in the assignment rubric.
+
+# Assignment Reflection: Domain Modeling and Class Diagram Development
+
+---
+
+## 1. Challenges in Designing the Domain Model
+
+The first challenge was deciding what counts as a domain entity versus what belongs in the implementation layer. A domain entity should represent something the business cares about — a concept that a non-technical stakeholder like the HR Manager or Legal Officer could recognise and discuss. A service class like `IngestionPipeline` or `PIIRedactionService` does not exist in the business domain — neither the HR Manager nor the Finance Officer thinks about chunking strategies or PII pattern matching. Yet these classes are essential to the system's design.
+
+The resolution was to separate the diagram into two conceptual layers: domain entities (UserAccount, Document, QuerySession, VectorEmbedding, AuditLogEntry, Namespace, JWTToken) and service classes (IngestionPipeline, EmbeddingService, PIIRedactionService, LLMClient, ERPSyncConnector, NamespaceAccessGuard). The domain entities are what the business cares about. The service classes are how the system fulfils its responsibilities. Including both in the class diagram is necessary for a complete picture, but keeping them conceptually distinct is necessary for a coherent domain model.
+
+The second challenge was defining the right level of abstraction for methods. A class diagram is not pseudocode — methods should describe what an object can do, not how it does it internally. The first draft of `QuerySession` had methods like `callChromaDBSimilaritySearch()` and `buildOpenAIPromptString()`. These are implementation details, not domain-level responsibilities. The final version uses `retrieve(topK)` and `generateResponse()` — which describe the responsibility without prescribing the implementation. This distinction matters because the class diagram will guide implementation, and over-specifying methods at this stage constrains design decisions that should remain flexible.
+
+The third challenge was defining the `VectorEmbedding` entity. A vector embedding is not a concept that exists in the business domain at all — the HR Manager has never heard of a Float[] vector or a cosine similarity score. However, it is a critical technical entity without which the system cannot function. Modelling it required accepting that some entities in a software system's class diagram are purely technical, and that the class diagram's job is to accurately represent the system's structure, not to speak only in business language.
+
+---
+
+## 2. How the Class Diagram Aligns with Previous Assignments
+
+The class diagram is the culmination of eight assignments worth of design work, and its alignment with prior artifacts is direct and intentional.
+
+**State diagrams (Assignment 8):** Every status enumeration in the class diagram — `AccountStatus`, `DocumentStatus`, `QueryStatus`, `TokenStatus` — maps directly to the states defined in the state transition diagrams. The states are not invented for the class diagram; they were already formally modelled. The class diagram simply makes them type-safe by declaring them as enumerations rather than arbitrary strings.
+
+**Activity diagrams (Assignment 8):** The service classes in the class diagram correspond directly to the swimlanes in the activity diagrams. The `PIIRedactionService` class exists because the RAG Query activity diagram has a dedicated "RAG Orchestrator" swimlane with a PII scanning action. The `ERPSyncConnector` class exists because the ERP Sync activity diagram models an entire workflow that needs to be encapsulated somewhere. The activity diagrams specified what needed to happen; the class diagram specifies which objects are responsible for making it happen.
+
+**Use cases (Assignment 5):** The methods on `UserAccount` — `submitQuery()`, `uploadDocument()`, `deleteDocument()` — correspond directly to the use cases UC-02, UC-04, and the deletion functionality in UC-04. Use cases describe what actors can do; methods describe how the system enables them to do it.
+
+**Functional requirements (Assignment 4):** Every class is traceable to at least one functional requirement. The traceability table in `class_diagram.md` makes this explicit. The `NamespaceAccessGuard` service class exists entirely because of FR-02 (role-based access control) and NFR-11 (namespace isolation enforced at the retrieval layer). Without those requirements, the class would not exist.
+
+---
+
+## 3. Trade-offs Made
+
+**Composition vs Inheritance for Document types:**
+An early design considered using inheritance to model different document types — `PDFDocument` and `DOCXDocument` extending a base `Document` class. This was rejected in favour of a single `Document` class with a `fileType` attribute. The reason is that PDF and DOCX documents have identical domain behaviour — both are uploaded, ingested, chunked, embedded, and deleted in the same way. The only difference is which parsing library is used internally (PyMuPDF vs python-docx), which is an implementation detail that belongs in `IngestionPipeline`, not in the domain model. Introducing inheritance for this would have added complexity without adding conceptual clarity.
+
+**Separating Citation as a class:**
+An alternative design represented citations as a simple `List<String>` on `QuerySession`. This was rejected because citations carry structured data — document name, page number, chunk text, and similarity score — that needs to be formatted differently for the chat UI versus the sources panel. Making `Citation` a first-class class gives it a `format()` method and makes the relationship between a citation and its source `VectorEmbedding` explicit. The trade-off is additional complexity; the benefit is a more accurate model of what a citation actually is.
+
+---
+
+## 4. Lessons Learned About Object-Oriented Design
+
+The most important lesson is that **relationships are more important than attributes**. A class with ten attributes but no clear relationships to other classes is a warning sign — it suggests the class is doing too much or is modelling something that is not truly a domain entity. Every relationship in the EnterpriseIQ class diagram — particularly the composition relationships between `QuerySession` and `AuditLogEntry`, and between `Document` and `VectorEmbedding` — encodes a business rule. The fact that `AuditLogEntry` is composed by `QuerySession` is not just a UML notation; it means an audit log entry cannot exist without a query, which enforces the business rule that every query must be logged.
+
+The second lesson is that **naming is design**. Calling the access control component `NamespaceAccessGuard` rather than `AccessController` or `AuthorisationService` communicates something specific about what it guards (namespaces) and how it does it (as a guard — intercepting requests before they reach the vector store). Names in a class diagram become names in code, which become names in documentation, which become the vocabulary the team uses to talk about the system. Getting them right at the design stage prevents confusion at every stage that follows.
+
+The third lesson is that **a class diagram is not a database schema**. Several early design decisions conflated the two — defining `Vector Float[]` as an attribute on `VectorEmbedding` as if it would be stored in a relational column, or thinking about `AuditLogEntry` in terms of its PostgreSQL table structure. The class diagram models behaviour and responsibility, not storage. The storage implementation follows from the design, not the other way around. Keeping this separation clear produced a cleaner, more useful diagram.
