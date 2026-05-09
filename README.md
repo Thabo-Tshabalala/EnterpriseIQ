@@ -82,7 +82,23 @@ Once fully built, EnterpriseIQ will:
 |---|---|
 | [state_diagrams.md](./docs/state_diagrams.md) | 8 UML state transition diagrams covering: User Account, Document, Query Session, ERP Sync Job, JWT Token, Audit Log Entry, Namespace, and Vector Embedding — each with Mermaid diagrams, state explanations, and FR traceability |
 | [activity_diagrams.md](./docs/activity_diagram.md) | 8 UML activity diagrams covering: SSO Authentication, Document Ingestion, RAG Query Pipeline, User Management, ERP Sync, Document Expiry Flagging, Audit Log Export, and Cited Response View — with swimlanes, decisions, and parallel actions |
- 
+
+### Assignment 11 — Persistence Repository Layer
+
+**Abstraction Choice: Factory Pattern**
+`RepositoryFactory` selects the storage backend at startup via a `storage_type`
+string (`MEMORY`, `FILESYSTEM`, `DATABASE`). No service or domain class changes
+when switching backends — only the factory config changes.
+
+| Directory | Description |
+|---|---|
+| [`repositories/base_repository.py`](./repositories/base_repository.py) | Generic `Repository[T, ID]` interface with 6 CRUD operations |
+| [`repositories/interfaces.py`](./repositories/interfaces.py) | 6 entity-specific interfaces with domain query methods |
+| [`repositories/inmemory/`](./repositories/inmemory/) | Full HashMap in-memory implementations for all 6 entities |
+| [`repositories/filesystem/`](./repositories/filesystem/) | JSON filesystem stubs (Document, AuditLog) |
+| [`repositories/database/`](./repositories/database/) | PostgreSQL stubs (UserAccount, Document) |
+| [`factories/repository_factory.py`](./factories/repository_factory.py) | Factory that returns correct backend by storage type |
+| [`tests/test_repositories.py`](./tests/test_repositories.py) | 62 unit tests - 62 passed |
 ---
 ## Author
 Thabo Tshabalala
