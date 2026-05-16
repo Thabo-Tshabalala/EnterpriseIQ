@@ -121,5 +121,30 @@ when switching backends — only the factory config changes.
 pip install fastapi uvicorn httpx pytest
 uvicorn api.main:app --reload
 ```
+
+## CI/CD Pipeline 
+
+### How to run tests locally
+```bash
+pip install -r requirements.txt
+pytest tests/ -v
+pytest tests/ --cov=src --cov=services --cov=api --cov-report=term-missing
+```
+
+### How the pipeline works
+
+| Trigger | Job | What happens |
+|---|---|---|
+| Push to any branch | `Run All Tests` | All 215+ tests run automatically |
+| PR to `main` | `Run All Tests` | Tests must pass before merge is allowed |
+| Merge to `main` | `Build Release Artifact` | Python wheel built and uploaded as artifact |
+
+The `main` branch is protected — no direct pushes allowed. All changes go through a Pull Request that requires passing CI and a code review.
+
+| Tool | Link |
+|---|---|
+| CI/CD Workflow | [.github/workflows/ci.yml](./.github/workflows/ci.yml) |
+| Branch Protection | [PROTECTION.md](./PROTECTION.md) |
+| Actions | [GitHub Actions](../../actions) |
 ## Author
 Thabo Tshabalala
