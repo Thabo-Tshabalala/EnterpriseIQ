@@ -100,5 +100,26 @@ when switching backends — only the factory config changes.
 | [`factories/repository_factory.py`](./factories/repository_factory.py) | Factory that returns correct backend by storage type |
 | [`tests/test_repositories.py`](./tests/test_repositories.py) | 62 unit tests - 62 passed |
 ---
+
+### Assignment 12 — Service Layer & REST API
+
+**Framework:** FastAPI (Python)
+**Swagger UI:** http://localhost:8000/docs
+
+| Directory | Description |
+|---|---|
+| [`services/user_service.py`](./services/user_service.py) | UserAccount business logic — create, role management, lock/unlock, deactivate |
+| [`services/document_service.py`](./services/document_service.py) | Document business logic — upload validation, status transitions, expiry flagging |
+| [`services/query_service.py`](./services/query_service.py) | QuerySession business logic — namespace access control, PII scan, RAG pipeline |
+| [`api/main.py`](./api/main.py) | FastAPI app entry point with Swagger config and dependency injection |
+| [`api/routers/`](./api/routers/) | REST endpoints for Users, Documents, and QuerySessions |
+| [`tests/services/`](./tests/services/) | 41 service unit tests |
+| [`tests/api/`](./tests/api/) | 29 API integration tests |
+
+**To run:**
+```bash
+pip install fastapi uvicorn httpx pytest
+uvicorn api.main:app --reload
+```
 ## Author
 Thabo Tshabalala
