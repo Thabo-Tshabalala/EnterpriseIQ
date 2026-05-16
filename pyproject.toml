@@ -1,0 +1,32 @@
+# EnterpriseIQ — Python package configuration
+# Used by the CD pipeline to build a distributable wheel artifact
+
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name = "enterpriseiq"
+version = "1.0.0"
+description = "An Intelligent Retrieval-Augmented Generation System for Enterprise Knowledge Management"
+authors = [
+    { name = "Thabo Tshabalala" }
+]
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.115.0",
+    "uvicorn>=0.30.6",
+]
+
+[project.urls]
+Homepage = "https://github.com/Thabo-Tshabalala/ENTERPRISEQ"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+[tool.coverage.run]
+source = ["src", "creational_patterns", "repositories", "services", "api"]
+omit = ["tests/*", "*/database/*", "*/filesystem/*"]
